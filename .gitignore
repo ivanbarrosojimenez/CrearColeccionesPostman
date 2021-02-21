@@ -1,0 +1,5 @@
+/bin/
+/correos/*.*
+/plantilla/*.*
+ColeccionesFase*/*.*
+.classpath
