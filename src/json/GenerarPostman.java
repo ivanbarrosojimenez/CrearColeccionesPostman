@@ -218,8 +218,12 @@ public class GenerarPostman {
                     coleccion++;
                     mapaProgramas = new TreeMap<>();
                     GrabarFichero grabarFichero = new GrabarFichero();
-                    grabarFichero.crearFichero("ColeccionesFase" + FASE + "/ColeccionPostman_fase_"
+                    //En la misma carpeta
+                    grabarFichero.crearFichero("Colecciones/ColeccionPostman_fase_"
                             + FASE + "_" + (numFichero++) + ".json", true);
+                    //Cada una en su carpeta
+//                    grabarFichero.crearFichero("ColeccionesFase" + FASE + "/ColeccionPostman_fase_"
+//                            + FASE + "_" + (numFichero++) + ".json", true);
                     grabarFichero.agregarAFichero(jsonObject.toJSONString());
                     grabarFichero.cerrarFichero();
 
@@ -263,13 +267,18 @@ public class GenerarPostman {
             
             //Grabar excel con relacion de programas por cada coleccion
             GrabarFichero grabarFichero = new GrabarFichero();
-            grabarFichero.crearFichero("ColeccionesFase" + FASE + "/RelacionColecciones_fase_"
+            //En la misma carpeta
+            grabarFichero.crearFichero("Colecciones/RelacionColecciones_fase_"
                     + FASE + ".csv", true);
+            //En carpetas separadas
+//            grabarFichero.crearFichero("ColeccionesFase" + FASE + "/RelacionColecciones_fase_"
+//                    + FASE + ".csv", true);
             grabarFichero.agregarAFichero(sfTransaccionesPorColeccion.toString());
             grabarFichero.cerrarFichero();
             
-            return sfRespuesta;
         }
+        return sfRespuesta;
+
     }
 
     private boolean pasaFiltro(String jsonLlamada) {
