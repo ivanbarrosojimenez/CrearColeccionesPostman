@@ -22,6 +22,7 @@ public class GenerarPostman {
     public static final int FASE4 = 4;
     public static final int FASE5 = 5;
     public static final int FASE_ERROR = 10;
+    public static final int FASE_ERROR2 = 11;
     StringBuffer sfTransaccionesPorColeccion = new StringBuffer();
     public GenerarPostman() {
     	sfTransaccionesPorColeccion.append("Transación;numero pruebas; colección\r\n");
@@ -661,6 +662,11 @@ public class GenerarPostman {
              a.add("POSAZ636");
              a.add("POSAZ637");
             break;
+        case 11:
+	        a.add("POSMZ145");
+	        a.add("POSAZ520");
+        break;
+        
         default:
             break;
         }
