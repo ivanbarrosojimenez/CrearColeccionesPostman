@@ -22,6 +22,7 @@ public class GenerarPostman {
     public static final int FASE4 = 4;
     public static final int FASE5 = 5;
     public static final int FASE6 = 6;
+    public static final int FASE7 = 7;
     public static final int FASE_ERROR = 10;
     public static final int FASE_ERROR2 = 11;
     public static final int FASE_ERROR3 = 12;
@@ -77,7 +78,7 @@ public class GenerarPostman {
     }
 
     private static int FASE;
-    public final static int MAX_NUM_PRUEBAS = 50;
+    public final static int MAX_NUM_PRUEBAS = 25;
     private static int coleccion = 0;
 
     private String obtenerIdPostman() {
@@ -104,7 +105,7 @@ public class GenerarPostman {
         // FILTRO DE TRANSACCIONES
         TreeSet<String> listadoFiltrado = new TreeSet<>();
         for (String jsonLlamada : listaJsonLlamada) {
-            if (pasaFiltro(jsonLlamada)) {
+            if (pasaFiltro(jsonLlamada) && pasaFiltroOperacion(jsonLlamada, FASE)) {
                 listadoFiltrado.add(jsonLlamada);
             }
         }
@@ -207,7 +208,7 @@ public class GenerarPostman {
                     System.out.println("Tamanio item pruebas: " + listadoElementos.size());
                     listadoElementos = new ArrayList<>();
 
-                    System.out.println("prueba # " + (numeroPrueba - 50) + "-" + numeroPrueba);
+                    System.out.println("prueba # " + (numeroPrueba - MAX_NUM_PRUEBAS) + "-" + numeroPrueba);
                     
                     for (Map.Entry<String, Integer> entry : mapaProgramas.entrySet()) {
                         String key = entry.getKey();
@@ -288,6 +289,79 @@ public class GenerarPostman {
         String nombrePrograma = obtenerNombrePrograma(jsonLlamada);
         return listadoTrnasacciones(FASE).contains(nombrePrograma);
     }
+    
+    private boolean pasaFiltroOperacion(String jsonLlamada, int fase) {
+    	String nombrePrograma = obtenerNombrePrograma(jsonLlamada);
+    	String codigoOperacion = obtenerCodigoOperacion(jsonLlamada);
+    	
+    	switch (fase) {
+    	case 1:
+    		return true;
+    		
+    	case 2:
+    		if (nombrePrograma.contains("POSAZ516")) {
+    			return codigoOperacion.equals("A");
+        	}
+    		
+    		return true;
+    		
+    	case 3:
+    		if (nombrePrograma.contains("POSAZ538")) {
+    			return codigoOperacion.equals("C");
+        	} else if (nombrePrograma.contains("POSAZ516")) {
+    			return codigoOperacion.equals("M");
+        	} else if (nombrePrograma.contains("POSAZ514")) {
+    			return codigoOperacion.equals("A");
+        	}
+    		
+    		return true;
+    		
+    	case 4:
+    		if (nombrePrograma.contains("POSAZ558")) {
+    			return codigoOperacion.equals("A");
+        	} else if (nombrePrograma.contains("POSAZ514")) {
+    			return codigoOperacion.equals("M");
+        	}
+    		
+    		return true;
+    		
+		case 5:
+			if (nombrePrograma.contains("POSAZ582")) {
+				return codigoOperacion.equals("A");
+        	} else if (nombrePrograma.contains("POSAZ558")) {
+				return codigoOperacion.equals("M");				
+        	} else if (nombrePrograma.contains("POSAZ538")) {
+    			return codigoOperacion.equals("A");
+        	} else if (nombrePrograma.contains("POSAZ516")) {
+    			return codigoOperacion.equals("B");
+        	} else if (nombrePrograma.contains("POSAZ514")) {
+    			return codigoOperacion.equals("B");
+        	}
+			
+			return true;
+
+		case 6:
+			if (nombrePrograma.contains("POSAZ582")) {
+				return codigoOperacion.equals("M");
+        	} else if (nombrePrograma.contains("POSAZ538")) {
+    			return codigoOperacion.equals("R");
+        	}
+			
+			return true;
+		
+		case 7:
+			if (nombrePrograma.contains("POSAZ538")) {
+    			return codigoOperacion.equals("M");
+        	}
+			
+			return true;
+			
+		default:
+			break;
+		}   	
+    	
+    	return false;
+    }
 
     private ArrayList<String> listadoTrnasacciones(int fases) {
         ArrayList<String> a = new ArrayList<String>();
@@ -338,6 +412,8 @@ public class GenerarPostman {
             a.add("POSAZ629");
             a.add("POSAZ635");
             a.add("POSAZ509");
+            a.add("POSAZ516");
+            
         	break;
         case 3:
             a.add("POSAZ631");
@@ -371,7 +447,9 @@ public class GenerarPostman {
             a.add("POSAZ591");
             a.add("POSAZ595");
             a.add("POSAZ130");
-
+            a.add("POSAZ538");
+            a.add("POSAZ516");
+            a.add("POSAZ514");
 
             break;
         case 4:
@@ -393,7 +471,8 @@ public class GenerarPostman {
             a.add("POSAZ589");
             a.add("POSAZ590");
             a.add("POSAZ598");
-
+            a.add("POSAZ558");
+            a.add("POSAZ514");
             
             break;
         case 5:
@@ -405,10 +484,8 @@ public class GenerarPostman {
             a.add("POSAZ537");
             a.add("POSAZ549");
             a.add("POSAZ550");
-            a.add("POSAZ556");
-            
-            a.add("POSAZ558");
-            a.add("POSAZ559");
+            a.add("POSAZ556");            
+            a.add("POSAZ558");            
             a.add("POSAZ560");
             a.add("POSAZ561");
             a.add("POSAZ562");
@@ -418,8 +495,7 @@ public class GenerarPostman {
             a.add("POSAZ569");
             a.add("POSAZ572");
             a.add("POSAZ575");
-            a.add("POSAZ577");
-            a.add("POSAZ578");
+            a.add("POSAZ577");            
             a.add("POSAZ579");
             a.add("POSAZ580");
             a.add("POSAZ582");
@@ -431,14 +507,15 @@ public class GenerarPostman {
             a.add("POSAZ622");
             a.add("POSAZ623");
             a.add("POSAZ624");
-            a.add("POSAZ625");
-            a.add("POSAZ626");
+            a.add("POSAZ625");            
             a.add("POSAZ632");
             a.add("POSAZ633");
             a.add("POSAZ634");
             a.add("POSAZ637");
             a.add("POSAZ102");
             a.add("POSAZ543");
+            a.add("POSAZ538");
+            a.add("POSAZ514");
 
             break;
         case 6:
@@ -448,18 +525,24 @@ public class GenerarPostman {
         	a.add("POSAZ618");
             a.add("POSAZ551");
             a.add("POSAZ557");
-            a.add("POSAZ538");
-            a.add("POSAZ514");
-            a.add("POSAZ513");
+            a.add("POSAZ538");                        
         	a.add("POSMZ135");
             a.add("POSMZ136");
             a.add("POSMZ137");
             a.add("POSAZ611");
             a.add("POSAZ517");
             a.add("POSAZ600");
-
+            a.add("POSAZ582");
 
             break;
+        case 7:
+            a.add("POSAZ578");
+            a.add("POSAZ626");
+            a.add("POSAZ559");
+            a.add("POSAZ538");
+            a.add("POSAZ513");
+            
+        	break;
         case 10:
 //        	 a.add("POSAZ102");
 //        	 a.add("POSAZ130");
@@ -701,6 +784,11 @@ public class GenerarPostman {
 
     private String obtenerNombrePrograma(String jsonLlamada) {
         return jsonLlamada.substring(2, 10);
+    }
+    
+    private String obtenerCodigoOperacion(String jsonLlamada) {
+    	int indexOpe = jsonLlamada.indexOf("cod_operacion_e");
+    	return jsonLlamada.substring(indexOpe + 18, indexOpe + 19);
     }
 
     private String obtenerNombreCopy(String jsonLlamada) {
