@@ -3,8 +3,12 @@ package json;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -26,6 +30,13 @@ public class GenerarPostman {
     public static final int FASE_ERROR = 10;
     public static final int FASE_ERROR2 = 11;
     public static final int FASE_ERROR3 = 12;
+    
+    public static final int FASE21 = 21;
+    public static final int FASE22 = 22;
+    public static final int FASE23 = 23;
+    public static final int FASE24 = 24;
+    public static final int FASE25 = 25;
+    public static final int FASE26 = 26;
     StringBuffer sfTransaccionesPorColeccion = new StringBuffer();
     public GenerarPostman() {
     	sfTransaccionesPorColeccion.append("Transaci�n;numero pruebas; colecci�n\r\n");
@@ -39,8 +50,9 @@ public class GenerarPostman {
         try {
             boolean lineaEncontrada = false;
             archivo = new File(nombreFichero);
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
+            fr = new FileReader(archivo);            
+            //br = new BufferedReader(fr);
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(nombreFichero), "Cp1252"));
 
             // Lectura del fichero
             String linea;
@@ -51,9 +63,13 @@ public class GenerarPostman {
                     lineaEncontrada = false;
                 }
                 if (lineaEncontrada && !linea.trim().equals("")) {
+                	linea = Normalizer.normalize(linea, Normalizer.Form.NFD);   
+                    linea = linea.replaceAll("[^\\p{ASCII}]", "");
+                    
                     llamadasJson.add(linea.replaceAll("_ ", "_").replaceAll(" \"", "\"")
                             .replaceAll(" _", "_").replaceAll("\" ", "\"")
                             .replaceAll("(?<=\\w) +(?=\\w)", ""));
+                    
                 }
                 if (linea.startsWith("############ JSON DE LLAMADA ")) {
                     lineaEncontrada = true;
@@ -72,7 +88,7 @@ public class GenerarPostman {
             catch (Exception e2) {
                 e2.printStackTrace();
             }
-        }
+        }       
 
         return llamadasJson;
     }
@@ -107,6 +123,9 @@ public class GenerarPostman {
         for (String jsonLlamada : listaJsonLlamada) {
             if (pasaFiltro(jsonLlamada) && pasaFiltroOperacion(jsonLlamada, FASE)) {
                 listadoFiltrado.add(jsonLlamada);
+                if (jsonLlamada.contains("nombre_via_e")) {
+                	System.err.println(jsonLlamada);
+                }
             }
         }
         // FILTRO DE TRANSACCIONES FIN
@@ -116,9 +135,8 @@ public class GenerarPostman {
         TreeSet<String> listaProgramas = new TreeSet<>();
         try {
 
-            // Pares de ficheros, poner de dos en dos
-
-            JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(f1));
+            // Pares de ficheros, poner de dos en dos        	
+            JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(f1));        	
 
             // Elemento item (tiene el nombre carpeta y el array item)
             JSONArray arrayItem = (JSONArray) jsonObject.get("item");
@@ -199,10 +217,6 @@ public class GenerarPostman {
                     arrayItem.remove(0);
                     for (JSONObject jsonObject2 : listadoElementos) {
                         arrayItem.add(jsonObject2);
-                    }
-
-                    for (String string : listaProgramas) {
-                        // System.out.println(string);
                     }
 
                     System.out.println("Tamanio item pruebas: " + listadoElementos.size());
@@ -321,6 +335,8 @@ public class GenerarPostman {
     			return codigoOperacion.equals("A");
         	} else if (nombrePrograma.contains("POSAZ514")) {
     			return codigoOperacion.equals("M");
+        	} else if (nombrePrograma.contains("POSAZ552")) {
+        		return codigoOperacion.equals("A");
         	}
     		
     		return true;
@@ -336,6 +352,8 @@ public class GenerarPostman {
     			return codigoOperacion.equals("B");
         	} else if (nombrePrograma.contains("POSAZ514")) {
     			return codigoOperacion.equals("B");
+        	} else if (nombrePrograma.contains("POSAZ552")) {
+        		return codigoOperacion.equals("B");
         	}
 			
 			return true;
@@ -354,6 +372,24 @@ public class GenerarPostman {
     			return codigoOperacion.equals("M");
         	}
 			
+			return true;
+		
+		case 21:
+			return true;
+		
+		case 22:
+			return true;
+			
+		case 23:
+			return true;
+			
+		case 24:
+			return true;
+			
+		case 25:
+			return true;
+			
+		case 26:
 			return true;
 			
 		default:
@@ -473,6 +509,7 @@ public class GenerarPostman {
             a.add("POSAZ598");
             a.add("POSAZ558");
             a.add("POSAZ514");
+            a.add("POSAZ552");            
             
             break;
         case 5:
@@ -776,6 +813,117 @@ public class GenerarPostman {
 
         break;
         
+        /*case 21:
+        	a.add("POSLZ166");
+        	a.add("POSLZ169");
+        	a.add("POSAZ501");
+        	a.add("POSAZ521");
+        	a.add("POSAZ585");
+        	a.add("POSAZ588");
+        	a.add("POSAZ594");
+        	a.add("POSAZ596");
+        	a.add("POSAZ612");
+        	a.add("POSAZ615");
+        	a.add("POSAZ628");
+        	a.add("POSAZ545");
+        	a.add("POSAZ546");
+        	a.add("POSAZ548");
+        	a.add("POSAZ550");
+        	
+        	break;
+        	
+        case 22:
+        	a.add("POSAZ551");
+        	a.add("POSAZ557");
+        	a.add("POSAZ559");
+        	a.add("POSAZ560");
+        	a.add("POSAZ562");
+        	a.add("POSAZ563");
+        	a.add("POSAZ564");
+        	a.add("POSAZ569");
+        	a.add("POSAZ571");
+        	a.add("POSAZ572");
+        	a.add("POSAZ578");
+        	a.add("POSAZ579");
+        	a.add("POSAZ580");
+        	a.add("POSAZ587");
+        	a.add("POSAZ618");
+        	
+        	break;
+        
+        case 23:
+        	a.add("POSAZ620");
+        	a.add("POSAZ621");
+        	a.add("POSAZ622");
+        	a.add("POSAZ624");
+        	a.add("POSAZ626");
+        	a.add("POSAZ634");
+        	a.add("POSAZ637");
+        	a.add("POSAZ502");
+        	a.add("POSAZ522");
+        	a.add("POSAZ524");
+        	a.add("POSAZ528");
+        	a.add("POSAZ530");
+        	a.add("POSAZ544");
+        	a.add("POSAZ592");
+        	a.add("POSAZ597");
+        	a.add("POSAZ604");
+        	
+        	break;
+        	
+        case 24:
+        	a.add("POSAZ614");
+        	a.add("POSAZ627");
+        	a.add("POSAZ629");
+        	a.add("POSAZ131");
+        	a.add("POSAZ505");
+        	a.add("POSAZ508");
+        	a.add("POSAZ513");
+        	a.add("POSAZ515");
+        	a.add("POSAZ518");
+        	a.add("POSAZ534");
+        	a.add("POSAZ102");
+        	a.add("POSAZ539");
+        	a.add("POSAZ547");
+        	a.add("POSAZ574");
+        	
+        	break;
+        	
+        case 25:
+        	a.add("POSAZ576");
+        	a.add("POSAZ589");
+        	a.add("POSAZ590");
+        	a.add("POSAZ591");
+        	a.add("POSAZ595");
+        	a.add("POSAZ635");
+        	a.add("POSAZ581");
+        	a.add("POSAZ583");
+        	a.add("POSAZ584");
+        	a.add("POSMZ149");
+        	a.add("POSMZ150");
+        	a.add("POSMZ136");
+        	a.add("POSMZ139");
+        	a.add("POSMZ141");
+        	a.add("POSMZ143");
+        	a.add("POSMZ144");
+        	
+        	break;*/
+        
+        case 26:
+        	/*a.add("POSAZ526");
+        	a.add("POSAZ595");
+        	a.add("POSAZ631");
+        	a.add("POSAZ537");
+        	a.add("POSAZ561");
+        	a.add("POSLZ167");
+        	a.add("POSAZ584");
+        	a.add("POSAZ528");*/
+        	//a.add("POSAZ502");
+        	//a.add("POSAZ503");
+        	
+        	break;
+        	
+        	
         default:
             break;
         }
