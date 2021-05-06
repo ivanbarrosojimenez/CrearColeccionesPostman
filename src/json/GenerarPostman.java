@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
@@ -38,9 +39,10 @@ public class GenerarPostman {
     public static final int FASE25 = 25;
     public static final int FASE26 = 26;
     StringBuffer sfTransaccionesPorColeccion = new StringBuffer();
+    StringBuffer sfTransaccionesPorTiempo = new StringBuffer();
     public GenerarPostman() {
     	sfTransaccionesPorColeccion.append("Transaci�n;numero pruebas; colecci�n\r\n");
-    	
+    	sfTransaccionesPorTiempo.append("URL;Transaccion;Tiempo\r\n");    	
     }
     public TreeSet<String> obtenerLlamadasJson(String nombreFichero) {
         File archivo = null;
@@ -92,6 +94,70 @@ public class GenerarPostman {
 
         return llamadasJson;
     }
+    
+    public TreeSet<String> obtenerTiemposJson(String nombreFichero) {
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        TreeSet<String> llamadasJson = new TreeSet<>();
+        try {
+            boolean lineaEncontrada = false;
+            archivo = new File(nombreFichero);
+            fr = new FileReader(archivo);
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(nombreFichero), "Cp1252"));
+
+            // Lectura del fichero
+            String linea;
+            List<String> listCampos = new ArrayList<String>();
+            while ((linea = br.readLine()) != null) {
+            	if (linea.startsWith("De:")) {
+            		listCampos = new ArrayList<String>();
+            	}
+            	
+            	if (linea.startsWith("Asunto:	LLAMADA Y RESPUESTA URL:") || linea.startsWith("{\"P")
+            			|| linea.contains("segundos.")) {
+                    lineaEncontrada = true;
+                }
+            	
+            	if (lineaEncontrada && !linea.trim().equals("")) {
+            		if (linea.indexOf("http") != -1 && linea.indexOf("-js") != -1) {
+            			String url = linea.substring(linea.indexOf("http"), linea.indexOf("-js") + 3);
+                		listCampos.add(url);	
+            		} else if (linea.indexOf("{\"P") != -1) {
+            			String nombrePrograma = linea.substring(2, 10);
+            			listCampos.add(nombrePrograma);
+            		} else if (linea.indexOf("segundos.") != -1) {
+            			String tiempo = linea.substring(0, linea.indexOf("segundos.") - 1);
+            			listCampos.add(tiempo);
+            		}
+            	}
+            	
+            	if (listCampos.size() == 3) {
+            		if (listCampos.get(0).contains("http")) {
+            			String lineaTiempos = listCampos.get(0) + ";" + listCampos.get(1) + ";" + listCampos.get(2);
+                		llamadasJson.add(lineaTiempos);	
+            		}            		
+            		listCampos = new ArrayList<String>();
+            	}
+            	lineaEncontrada = false;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (null != fr) {
+                    fr.close();
+                }
+            }
+            catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }       
+
+        return llamadasJson;
+    }
 
     private static int FASE;
     public final static int MAX_NUM_PRUEBAS = 25;
@@ -110,6 +176,22 @@ public class GenerarPostman {
         }
         return "idpostm" + r1 + "" + r2 + "" + r3;
     }
+    
+    public void obtenerSalidaTiempos(TreeSet<String> listaJsonTiempos) throws IOException {
+        for (String jsonLlamada : listaJsonTiempos) {
+        	sfTransaccionesPorTiempo.append(jsonLlamada + "\r\n");
+        }
+        try {
+        	GrabarFichero grabarFichero = new GrabarFichero();
+            grabarFichero.crearFichero("Tiempos/TiemposTransaccion" + ".csv", true);
+            grabarFichero.agregarAFichero(sfTransaccionesPorTiempo.toString());
+            grabarFichero.cerrarFichero();
+        }
+
+        catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     public StringBuffer obtenerSalida(String f1, TreeSet<String> listaJsonLlamada, int FASE,
             boolean generarTest) throws IOException {
@@ -123,9 +205,6 @@ public class GenerarPostman {
         for (String jsonLlamada : listaJsonLlamada) {
             if (pasaFiltro(jsonLlamada) && pasaFiltroOperacion(jsonLlamada, FASE)) {
                 listadoFiltrado.add(jsonLlamada);
-                if (jsonLlamada.contains("nombre_via_e")) {
-                	System.err.println(jsonLlamada);
-                }
             }
         }
         // FILTRO DE TRANSACCIONES FIN
@@ -346,6 +425,8 @@ public class GenerarPostman {
         		return codigoOperacion.equals("A");
         	} else if (nombrePrograma.contains("POSAZ631")) {
         		return codigoOperacion.equals("A1");
+        	} else if (nombrePrograma.contains("POSMZ138")) {
+        		return codigoOperacion.equals("A");
         	}
     		
     		return true;
@@ -371,6 +452,12 @@ public class GenerarPostman {
         		return codigoOperacion.equals("U1");
         	} else if (nombrePrograma.contains("POSAZ503")) {
         		return codigoOperacion.equals("A");
+        	} else if (nombrePrograma.contains("POSAZ535")) {
+        		return codigoOperacion.equals("A");
+        	} else if (nombrePrograma.equals("POSMZ135")) {
+        		return codigoOperacion.equals("A");
+        	} else if (nombrePrograma.contains("POSMZ138")) {
+        		return codigoOperacion.equals("M");
         	}
     		
     		return true;
@@ -399,6 +486,12 @@ public class GenerarPostman {
         				codigoOperacion.equals("S3") || codigoOperacion.equals("O1");
         	} else if (nombrePrograma.contains("POSAZ503")) {
         		return codigoOperacion.equals("M");
+        	} else if (nombrePrograma.contains("POSAZ535")) {
+        		return codigoOperacion.equals("M");
+        	} else if (nombrePrograma.equals("POSMZ135")) {
+        		return codigoOperacion.equals("B");
+        	} else if (nombrePrograma.contains("POSMZ138")) {
+        		return codigoOperacion.equals("C");
         	}
 			
 			return true;
@@ -412,6 +505,12 @@ public class GenerarPostman {
         		return codigoOperacion.equals("M");
         	} else if (nombrePrograma.contains("POSAZ503")) {
         		return codigoOperacion.equals("R");
+        	} else if (nombrePrograma.contains("POSAZ535")) {
+        		return codigoOperacion.equals("C") || codigoOperacion.equals("L");
+        	} else if (nombrePrograma.equals("POSMZ135")) {
+        		return codigoOperacion.equals("D");
+        	} else if (nombrePrograma.contains("POSMZ138")) {
+        		return codigoOperacion.equals("B");
         	}
 			
 			return true;
@@ -423,10 +522,15 @@ public class GenerarPostman {
         		return codigoOperacion.equals("B");
         	} else if (nombrePrograma.contains("POSAZ503")) {
         		return codigoOperacion.equals("B");
+        	} else if (nombrePrograma.equals("POSMZ135")) {
+        		return codigoOperacion.equals("R");
         	}
 			
 			return true;
 		
+		case 10:
+			return true;
+			
 		case 21:
 			return true;
 		
@@ -573,6 +677,8 @@ public class GenerarPostman {
             a.add("POSAZ536");
             a.add("POSAZ561");
             a.add("POSAZ631");
+            a.add("POSMZ135");
+            a.add("POSMZ138");
             
             break;
         case 5:
@@ -619,6 +725,9 @@ public class GenerarPostman {
             a.add("POSAZ598");
             a.add("POSAZ631");
             a.add("POSAZ503");
+            a.add("POSAZ535");
+            a.add("POSMZ135");
+            a.add("POSMZ138");
 
             break;
         case 6:
@@ -639,6 +748,8 @@ public class GenerarPostman {
             a.add("POSAZ132");
             a.add("POSAZ560");
             a.add("POSAZ503");
+            a.add("POSAZ535");
+            a.add("POSMZ138");
 
             break;
         case 7:
@@ -649,227 +760,228 @@ public class GenerarPostman {
             a.add("POSAZ513");
             a.add("POSAZ132");
             a.add("POSAZ503");
+            a.add("POSMZ135");
             
         	break;
         case 10:
-//        	 a.add("POSAZ102");
-//        	 a.add("POSAZ130");
-//        	 a.add("POSAZ500");
-//        	 a.add("POSAZ502");
-//        	 a.add("POSAZ503");
-//        	 a.add("POSAZ504");
-//        	 a.add("POSAZ505");
-//        	 a.add("POSAZ509");
-//        	 a.add("POSAZ510");
-//        	 a.add("POSAZ513");
-//        	 a.add("POSAZ514");
-//        	 a.add("POSAZ515");
-//        	 a.add("POSAZ516");
-//        	 a.add("POSAZ518");
-//        	 a.add("POSAZ519");
-//        	 a.add("POSAZ520");
-//        	 a.add("POSAZ521");
-//        	 a.add("POSAZ522");
-//        	 a.add("POSAZ523");
-//        	 a.add("POSAZ524");
-//        	 a.add("POSAZ525");
-//        	 a.add("POSAZ526");
-//        	 a.add("POSAZ528");
-//        	 a.add("POSAZ530");
-//        	 a.add("POSAZ533");
-//        	 a.add("POSAZ535");
-//        	 a.add("POSAZ536");
-//        	 a.add("POSAZ538");
-//        	 a.add("POSAZ545");
-//        	 a.add("POSAZ546");
-//        	 a.add("POSAZ557");
-//        	 a.add("POSAZ558");
-//        	 a.add("POSAZ559");
-//        	 a.add("POSAZ560");
-//        	 a.add("POSAZ561");
-//        	 a.add("POSAZ563");
-//        	 a.add("POSAZ565");
-//        	 a.add("POSAZ576");
-//        	 a.add("POSAZ578");
-//        	 a.add("POSAZ581");
-//        	 a.add("POSAZ582");
-//        	 a.add("POSAZ586");
-//        	 a.add("POSAZ587");
-//        	 a.add("POSAZ588");
-//        	 a.add("POSAZ589");
-//        	 a.add("POSAZ593");
-//        	 a.add("POSAZ595");
-//        	 a.add("POSAZ596");
-//        	 a.add("POSAZ599");
-//        	 a.add("POSAZ611");
-//        	 a.add("POSAZ617");
-//        	 a.add("POSAZ618");
-//        	 a.add("POSAZ620");
-//        	 a.add("POSAZ621");
-//        	 a.add("POSAZ626");
-//        	 a.add("POSAZ627");
-//        	 a.add("POSAZ634");
-//        	 a.add("POSAZ637");
-//        	 a.add("POSLZ167");
-//        	 a.add("POSLZ169");
-//        	 a.add("POSLZ170");
-//        	 a.add("POSMZ135");
-//        	 a.add("POSMZ140");
-//        	 a.add("POSMZ141");
-//        	 a.add("POSMZ142");
-//        	 a.add("POSMZ143");
-//        	 a.add("POSMZ144");
-//        	 a.add("POSMZ145");
-//        	 a.add("POSMZ149");
-//        	 a.add("POSMZ150");
-//        	 a.add("POSMZ151");
+/*        	 a.add("POSAZ102");
+        	 a.add("POSAZ130");
+        	 a.add("POSAZ500");
+        	 a.add("POSAZ502");
+        	 a.add("POSAZ503");
+        	 a.add("POSAZ504");
+        	 a.add("POSAZ505");
+        	 a.add("POSAZ509");
+        	 a.add("POSAZ510");
+        	 a.add("POSAZ513");
+        	 a.add("POSAZ514");
+        	 a.add("POSAZ515");
+        	 a.add("POSAZ516");
+        	 a.add("POSAZ518");
+        	 a.add("POSAZ519");
+        	 a.add("POSAZ520");
+        	 a.add("POSAZ521");
+        	 a.add("POSAZ522");
+        	 a.add("POSAZ523");
+        	 a.add("POSAZ524");
+        	 a.add("POSAZ525");
+        	 a.add("POSAZ526");
+        	 a.add("POSAZ528");
+        	 a.add("POSAZ530");
+        	 a.add("POSAZ533");
+        	 a.add("POSAZ535");
+        	 a.add("POSAZ536");
+        	 a.add("POSAZ538");
+        	 a.add("POSAZ545");
+        	 a.add("POSAZ546");
+        	 a.add("POSAZ557");
+        	 a.add("POSAZ558");
+        	 a.add("POSAZ559");
+        	 a.add("POSAZ560");
+        	 a.add("POSAZ561");
+        	 a.add("POSAZ563");
+        	 a.add("POSAZ565");
+        	 a.add("POSAZ576");
+        	 a.add("POSAZ578");
+        	 a.add("POSAZ581");
+        	 a.add("POSAZ582");
+        	 a.add("POSAZ586");
+        	 a.add("POSAZ587");
+        	 a.add("POSAZ588");
+        	 a.add("POSAZ589");
+        	 a.add("POSAZ593");
+        	 a.add("POSAZ595");
+        	 a.add("POSAZ596");
+        	 a.add("POSAZ599");
+        	 a.add("POSAZ611");
+        	 a.add("POSAZ617");
+        	 a.add("POSAZ618");
+        	 a.add("POSAZ620");
+        	 a.add("POSAZ621");
+        	 a.add("POSAZ626");
+        	 a.add("POSAZ627");
+        	 a.add("POSAZ634");
+        	 a.add("POSAZ637");
+        	 a.add("POSLZ167");
+        	 a.add("POSLZ169");
+        	 a.add("POSLZ170");
+        	 a.add("POSMZ135");
+        	 a.add("POSMZ140");
+        	 a.add("POSMZ141");
+        	 a.add("POSMZ142");
+        	 a.add("POSMZ143");
+        	 a.add("POSMZ144");
+        	 a.add("POSMZ145");
+        	 a.add("POSMZ149");
+        	 a.add("POSMZ150");
+        	 a.add("POSMZ151");
         	
         	
         	
-//        	 a.add("POSAZ501");
-//             a.add("POSAZ521");
-//             a.add("POSAZ585");
-//             a.add("POSAZ588");
-//             a.add("POSAZ593");
-//             a.add("POSAZ594");
-//             a.add("POSAZ596");
-//             a.add("POSAZ598");
-//             a.add("POSAZ599");
-//             a.add("POSAZ602");
-//             a.add("POSAZ608");
-//             a.add("POSAZ609");
-//             a.add("POSAZ610");
-//             a.add("POSAZ612");
-//             a.add("POSAZ615");
-//             a.add("POSAZ628");
-//             a.add("POSAZ500");
-//             a.add("POSAZ502");
-//             a.add("POSAZ503");
-//             a.add("POSAZ504");
-//             a.add("POSAZ507");
-//             a.add("POSAZ517");
-//             a.add("POSAZ519");
-//             a.add("POSAZ520");
-//             a.add("POSAZ522");
-//             a.add("POSAZ523");
-//             a.add("POSAZ524");
-//             a.add("POSAZ525");
-//             a.add("POSAZ526");
-//             a.add("POSAZ527");
-//             a.add("POSAZ528");
-//             a.add("POSAZ530");
-//             a.add("POSAZ532");
-//             a.add("POSAZ536");
-//             a.add("POSAZ544");
-//             a.add("POSAZ592");
-//             a.add("POSAZ597");
-//             a.add("POSAZ600");
-//             a.add("POSAZ601");
-//             a.add("POSAZ603");
-//             a.add("POSAZ604");
-//             a.add("POSAZ614");
-//             a.add("POSAZ616");
-//             a.add("POSAZ617");
-//             a.add("POSAZ627");
-//             a.add("POSAZ629");
-//             a.add("POSAZ631");
-//             a.add("POSAZ635");
-//         	a.add("POSMZ135");
-//             a.add("POSMZ136");
-//             a.add("POSMZ137");
-//             a.add("POSMZ138");
-//             a.add("POSMZ139");
-//             a.add("POSMZ140");
-//             a.add("POSMZ141");
-//             a.add("POSMZ142");
-//             a.add("POSMZ144");
-//             a.add("POSMZ145");
-//             a.add("POSMZ147");
-//             a.add("POSMZ148");
-//             a.add("POSMZ149");
-//             a.add("POSMZ150");
-//             a.add("POSMZ151");
-//             a.add("POSAZ581");
-//             a.add("POSAZ583");
-//             a.add("POSAZ584");
-//             a.add("POSAZ573");
-//             a.add("POSAZ571");
-//             a.add("POSLZ165");
-//             a.add("POSLZ166");
-//             a.add("POSLZ167");
-//             a.add("POSLZ168");
-//             a.add("POSLZ169");
-//             a.add("POSLZ170");
-//             a.add("POSAZ545");
-//             a.add("POSAZ546");
-//             a.add("POSAZ548");
-//             a.add("POSAZ591");
-//             a.add("POSAZ595");
-//         	a.add("POSMZ143");
-//             a.add("POSAZ131");
-//             a.add("POSAZ505");
-//             a.add("POSAZ508");
-//             a.add("POSAZ509");
-//             a.add("POSAZ513");
-//             a.add("POSAZ515");
-//             a.add("POSAZ518");
-//             a.add("POSAZ535");
-//             a.add("POSAZ586");
-//             a.add("POSAZ611");
-//             a.add("POSAZ102");
-//             a.add("POSAZ130");
-//             a.add("POSAZ514");
-//             a.add("POSAZ531");
-//             a.add("POSAZ538");
-//             a.add("POSAZ539");
-//             a.add("POSAZ547");
-//             a.add("POSAZ574");
-//             a.add("POSAZ576");
-//             a.add("POSAZ589");
-//             a.add("POSAZ590");
-//             a.add("POSAZ552");
-//             a.add("POSAZ516");
-//             a.add("POSAZ510");
-//             a.add("POSAZ533");
-//             a.add("POSAZ534");
-//             a.add("POSAZ537");
-//             a.add("POSAZ549");
-//             a.add("POSAZ550");
-//             a.add("POSAZ551");
-//             a.add("POSAZ556");
-//             a.add("POSAZ557");
-//             a.add("POSAZ558");
-//             a.add("POSAZ559");
-//             a.add("POSAZ560");
-//             a.add("POSAZ561");
-//             a.add("POSAZ562");
-//             a.add("POSAZ563");
-//             a.add("POSAZ564");
-//             a.add("POSAZ565");
-//             a.add("POSAZ569");
-//             a.add("POSAZ572");
-//             a.add("POSAZ575");
-//             a.add("POSAZ577");
-//             a.add("POSAZ578");
-//             a.add("POSAZ579");
-//             a.add("POSAZ580");
-//             a.add("POSAZ582");
-//             a.add("POSAZ587");
-//             a.add("POSAZ605");
-//             a.add("POSAZ618");
-//             a.add("POSAZ619");
-//             a.add("POSAZ620");
-//             a.add("POSAZ621");
-//             a.add("POSAZ622");
-//             a.add("POSAZ623");
-//             a.add("POSAZ624");
-//             a.add("POSAZ625");
-//             a.add("POSAZ626");
-//             a.add("POSAZ632");
-//             a.add("POSAZ633");
-//             a.add("POSAZ634");
-//             a.add("POSAZ636");
-//             a.add("POSAZ637");
+        	 a.add("POSAZ501");
+             a.add("POSAZ521");
+             a.add("POSAZ585");
+             a.add("POSAZ588");
+             a.add("POSAZ593");
+             a.add("POSAZ594");
+             a.add("POSAZ596");
+             a.add("POSAZ598");
+             a.add("POSAZ599");
+             a.add("POSAZ602");
+             a.add("POSAZ608");
+             a.add("POSAZ609");
+             a.add("POSAZ610");
+             a.add("POSAZ612");
+             a.add("POSAZ615");
+             a.add("POSAZ628");
+             a.add("POSAZ500");
+             a.add("POSAZ502");
+             a.add("POSAZ503");
+             a.add("POSAZ504");
+             a.add("POSAZ507");
+             a.add("POSAZ517");
+             a.add("POSAZ519");
+             a.add("POSAZ520");
+             a.add("POSAZ522");
+             a.add("POSAZ523");
+             a.add("POSAZ524");
+             a.add("POSAZ525");
+             a.add("POSAZ526");
+             a.add("POSAZ527");
+             a.add("POSAZ528");
+             a.add("POSAZ530");
+             a.add("POSAZ532");
+             a.add("POSAZ536");
+             a.add("POSAZ544");
+             a.add("POSAZ592");
+             a.add("POSAZ597");
+             a.add("POSAZ600");
+             a.add("POSAZ601");
+             a.add("POSAZ603");
+             a.add("POSAZ604");
+             a.add("POSAZ614");
+             a.add("POSAZ616");
+             a.add("POSAZ617");
+             a.add("POSAZ627");
+             a.add("POSAZ629");
+             a.add("POSAZ631");
+             a.add("POSAZ635");
+         	a.add("POSMZ135");
+             a.add("POSMZ136");
+             a.add("POSMZ137");
+             a.add("POSMZ138");
+             a.add("POSMZ139");
+             a.add("POSMZ140");
+             a.add("POSMZ141");
+             a.add("POSMZ142");
+             a.add("POSMZ144");
+             a.add("POSMZ145");
+             a.add("POSMZ147");
+             a.add("POSMZ148");
+             a.add("POSMZ149");
+             a.add("POSMZ150");
+             a.add("POSMZ151");
+             a.add("POSAZ581");
+             a.add("POSAZ583");
+             a.add("POSAZ584");
+             a.add("POSAZ573");
+             a.add("POSAZ571");
+             a.add("POSLZ165");
+             a.add("POSLZ166");
+             a.add("POSLZ167");
+             a.add("POSLZ168");
+             a.add("POSLZ169");
+             a.add("POSLZ170");
+             a.add("POSAZ545");
+             a.add("POSAZ546");
+             a.add("POSAZ548");
+             a.add("POSAZ591");
+             a.add("POSAZ595");
+         	a.add("POSMZ143");
+             a.add("POSAZ131");
+             a.add("POSAZ505");
+             a.add("POSAZ508");
+             a.add("POSAZ509");
+             a.add("POSAZ513");
+             a.add("POSAZ515");
+             a.add("POSAZ518");
+             a.add("POSAZ535");
+             a.add("POSAZ586");
+             a.add("POSAZ611");
+             a.add("POSAZ102");
+             a.add("POSAZ130");
+             a.add("POSAZ514");
+             a.add("POSAZ531");
+             a.add("POSAZ538");
+             a.add("POSAZ539");
+             a.add("POSAZ547");
+             a.add("POSAZ574");
+             a.add("POSAZ576");
+             a.add("POSAZ589");
+             a.add("POSAZ590");
+             a.add("POSAZ552");
+             a.add("POSAZ516");
+             a.add("POSAZ510");
+             a.add("POSAZ533");
+             a.add("POSAZ534");
+             a.add("POSAZ537");
+             a.add("POSAZ549");
+             a.add("POSAZ550");
+             a.add("POSAZ551");
+             a.add("POSAZ556");
+             a.add("POSAZ557");
+             a.add("POSAZ558");
+             a.add("POSAZ559");
+             a.add("POSAZ560");
+             a.add("POSAZ561");
+             a.add("POSAZ562");
+             a.add("POSAZ563");
+             a.add("POSAZ564");
+             a.add("POSAZ565");
+             a.add("POSAZ569");
+             a.add("POSAZ572");
+             a.add("POSAZ575");
+             a.add("POSAZ577");
+             a.add("POSAZ578");
+             a.add("POSAZ579");
+             a.add("POSAZ580");
+             a.add("POSAZ582");
+             a.add("POSAZ587");
+             a.add("POSAZ605");
+             a.add("POSAZ618");
+             a.add("POSAZ619");
+             a.add("POSAZ620");
+             a.add("POSAZ621");
+             a.add("POSAZ622");
+             a.add("POSAZ623");
+             a.add("POSAZ624");
+             a.add("POSAZ625");
+             a.add("POSAZ626");
+             a.add("POSAZ632");
+             a.add("POSAZ633");
+             a.add("POSAZ634");
+             a.add("POSAZ636");
+             a.add("POSAZ637");*/
             break;
         case 11:
 //	        a.add("POSMZ145");
