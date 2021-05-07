@@ -10,19 +10,21 @@ import json.GenerarPostman;
 
 public class Main {
 
-    static String NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21 = "correos/correoTodos6mayo.txt";
+    static String NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21 = "correos/correoTodos06mayo.txt";
     static String NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN = "plantilla/plantilla.json";
 
     public static void main(String[] args) throws IOException {
         /** Generar test postman */ 
 
     	//Borrar contenido y directorio Colecciones
-    	BorrarDirectorio.eliminarDirectorioYFicheros(new File("Colecciones"));	
+    	//BorrarDirectorio.eliminarDirectorioYFicheros(new File("Colecciones"));	
     	
     	boolean generarTest = true;
         GenerarPostman generarPostman = new GenerarPostman();
         TreeSet<String> listadoLLamadasJson = 
                 generarPostman.obtenerLlamadasJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);
+        
+        System.out.println(listadoLLamadasJson.size());
         //TreeSet<String> listadoLLamadasJson = 
                       //generarPostman.obtenerTiemposJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);
         
@@ -42,7 +44,10 @@ public class Main {
                 GenerarPostman.FASE6, generarTest);
         generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 GenerarPostman.FASE7, generarTest);
-        
+        generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
+                GenerarPostman.FASE8, generarTest);
+        generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
+                GenerarPostman.FASE9, generarTest);
         /*generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 GenerarPostman.FASE21, generarTest);
         generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,

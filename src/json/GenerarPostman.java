@@ -28,6 +28,8 @@ public class GenerarPostman {
     public static final int FASE5 = 5;
     public static final int FASE6 = 6;
     public static final int FASE7 = 7;
+    public static final int FASE8 = 8;
+    public static final int FASE9 = 9;
     public static final int FASE_ERROR = 10;
     public static final int FASE_ERROR2 = 11;
     public static final int FASE_ERROR3 = 12;
@@ -528,7 +530,19 @@ public class GenerarPostman {
 			
 			return true;
 		
+		case 8:
+			return true;
+			
+		case 9:
+			return true;
+			
 		case 10:
+			return true;
+			
+		case 11:
+			return true;
+			
+		case 12:
 			return true;
 			
 		case 21:
@@ -561,49 +575,30 @@ public class GenerarPostman {
 
         switch (fases) {
         case 1:
-            a.add("POSAZ501");
-            a.add("POSAZ521");
-            a.add("POSAZ585");
-            a.add("POSAZ588");
+        	//solo lectura
+        	
+        	//fin solo lectura
+        	
             a.add("POSAZ593");
-            a.add("POSAZ594");
-            a.add("POSAZ596");
             a.add("POSAZ599");
             a.add("POSAZ602");
             a.add("POSAZ608");
             a.add("POSAZ609");
             a.add("POSAZ610");
-            a.add("POSAZ612");
-            a.add("POSAZ615");
-            a.add("POSAZ628");
-            a.add("POSAZ500");
+           
             a.add("POSAZ504");
             a.add("POSAZ507");
             a.add("POSAZ519");
-            a.add("POSAZ522");
-            a.add("POSAZ524");
-            a.add("POSAZ525");
             a.add("POSAZ526");
             a.add("POSAZ527");
-            a.add("POSAZ528");
             break;
             
         case 2:
-            a.add("POSAZ530");
             a.add("POSAZ532");
             a.add("POSAZ536");
-            a.add("POSAZ544");
-            a.add("POSAZ592");
-            a.add("POSAZ597");
             a.add("POSAZ601");
             a.add("POSAZ603");
-            a.add("POSAZ604");
-            a.add("POSAZ614");
-            a.add("POSAZ616");
             a.add("POSAZ617");
-            a.add("POSAZ627");
-            a.add("POSAZ629");
-            a.add("POSAZ635");
             a.add("POSAZ509");
             a.add("POSAZ516");
             a.add("POSAZ510");
@@ -612,35 +607,18 @@ public class GenerarPostman {
         	break;
         case 3:
             a.add("POSAZ631");
-            a.add("POSAZ502");
             a.add("POSMZ138");
-            a.add("POSMZ139");
             a.add("POSMZ140");
-            a.add("POSMZ141");
             a.add("POSMZ142");
-            a.add("POSMZ144");
             a.add("POSMZ145");
             a.add("POSMZ147");
             a.add("POSMZ148");
-            a.add("POSMZ149");
-            a.add("POSMZ150");
             a.add("POSMZ151");
-            a.add("POSAZ581");
-            a.add("POSAZ583");
-            a.add("POSAZ584");
             a.add("POSAZ573");
-            a.add("POSAZ571");
             a.add("POSLZ165");
-            a.add("POSLZ166");
             a.add("POSLZ167");
             a.add("POSLZ168");
-            a.add("POSLZ169");
             a.add("POSLZ170");
-            a.add("POSAZ545");
-            a.add("POSAZ546");
-            a.add("POSAZ548");
-            a.add("POSAZ591");
-            a.add("POSAZ595");
             a.add("POSAZ130");
             a.add("POSAZ538");
             a.add("POSAZ516");
@@ -653,21 +631,8 @@ public class GenerarPostman {
             break;
         case 4:
             a.add("POSAZ503");
-        	a.add("POSMZ143");
-            a.add("POSAZ131");
-            a.add("POSAZ505");
-            a.add("POSAZ508");
-            a.add("POSAZ515");
-            a.add("POSAZ518");
             a.add("POSAZ535");
-            a.add("POSAZ586");
             a.add("POSAZ531");
-            a.add("POSAZ539");
-            a.add("POSAZ547");
-            a.add("POSAZ574");
-            a.add("POSAZ576");
-            a.add("POSAZ589");
-            a.add("POSAZ590");            
             a.add("POSAZ558");
             a.add("POSAZ514");
             a.add("POSAZ552");
@@ -686,38 +651,20 @@ public class GenerarPostman {
             a.add("POSAZ516");
             a.add("POSAZ510");
             a.add("POSAZ533");
-            a.add("POSAZ534");
             a.add("POSAZ537");
             a.add("POSAZ549");
-            a.add("POSAZ550");
             a.add("POSAZ556");            
             a.add("POSAZ558");           
             a.add("POSAZ561");
-            a.add("POSAZ562");
-            a.add("POSAZ563");
-            a.add("POSAZ564");
             a.add("POSAZ565");
-            a.add("POSAZ569");
-            a.add("POSAZ572");
             a.add("POSAZ575");
             a.add("POSAZ577");            
-            a.add("POSAZ579");
-            a.add("POSAZ580");
             a.add("POSAZ582");
-            a.add("POSAZ587");
-            a.add("POSAZ605");
             a.add("POSAZ619");
-            a.add("POSAZ620");
-            a.add("POSAZ621");
-            a.add("POSAZ622");
             a.add("POSAZ623");
-            a.add("POSAZ624");
             a.add("POSAZ625");            
             a.add("POSAZ632");
             a.add("POSAZ633");
-            a.add("POSAZ634");
-            a.add("POSAZ637");
-            a.add("POSAZ102");
             a.add("POSAZ543");
             a.add("POSAZ538");
             a.add("POSAZ514");
@@ -734,33 +681,117 @@ public class GenerarPostman {
             a.add("POSAZ636");
             a.add("POSAZ520");
             a.add("POSAZ523");
-        	a.add("POSAZ618");
-            a.add("POSAZ551");
-            a.add("POSAZ557");
             a.add("POSAZ538");                        
         	a.add("POSMZ135");
-            a.add("POSMZ136");
             a.add("POSMZ137");
             a.add("POSAZ611");
-            a.add("POSAZ517");
             a.add("POSAZ600");
             a.add("POSAZ582");
             a.add("POSAZ132");
-            a.add("POSAZ560");
             a.add("POSAZ503");
             a.add("POSAZ535");
             a.add("POSMZ138");
 
             break;
         case 7:
-            a.add("POSAZ578");
-            a.add("POSAZ626");
-            a.add("POSAZ559");
             a.add("POSAZ538");
-            a.add("POSAZ513");
             a.add("POSAZ132");
             a.add("POSAZ503");
             a.add("POSMZ135");
+            a.add("POSAZ594");
+
+        	break;
+        	
+        //Operaciones de solo lectura	
+        case 8:
+        	
+        	a.add("POSAZ500");
+            a.add("POSLZ166");
+            a.add("POSLZ169");
+            a.add("POSAZ501");
+            a.add("POSAZ521");
+            a.add("POSAZ585");
+            a.add("POSAZ588");
+            a.add("POSAZ596");
+            a.add("POSAZ612");
+            a.add("POSAZ615");
+            a.add("POSAZ628");
+            a.add("POSAZ522");
+            a.add("POSAZ524");
+            a.add("POSAZ525");
+            a.add("POSAZ528");
+            a.add("POSAZ508");
+            a.add("POSAZ505");
+            a.add("POSAZ513");
+            a.add("POSAZ515");
+            a.add("POSAZ518");
+            a.add("POSAZ534");
+            a.add("POSAZ586");
+            a.add("POSAZ102");
+            a.add("POSAZ539");
+            a.add("POSAZ547");
+            a.add("POSAZ574");
+            a.add("POSAZ576");
+            a.add("POSAZ589");
+            a.add("POSAZ590");            
+            a.add("POSAZ591");
+            a.add("POSAZ595");
+            a.add("POSAZ635");
+            a.add("POSAZ581");
+            a.add("POSAZ583");
+            a.add("POSAZ584");
+            a.add("POSMZ149");
+            a.add("POSMZ150");
+            a.add("POSMZ136");
+            a.add("POSMZ139");
+            a.add("POSMZ141");
+        	a.add("POSMZ143");
+            a.add("POSMZ144");
+            
+        	break;  
+        //Operaciones de solo lectura	
+        case 9:
+            a.add("POSAZ545");
+            a.add("POSAZ546");
+            a.add("POSAZ548");
+            a.add("POSAZ550");
+            a.add("POSAZ551");
+            a.add("POSAZ557");
+            a.add("POSAZ559");
+            a.add("POSAZ560");
+            a.add("POSAZ562");
+            a.add("POSAZ563");
+            a.add("POSAZ564");
+            a.add("POSAZ569");
+            a.add("POSAZ571");
+            a.add("POSAZ572");
+            a.add("POSAZ578");
+            a.add("POSAZ579");
+            a.add("POSAZ580");
+            a.add("POSAZ587");
+            a.add("POSAZ605");
+        	a.add("POSAZ618");
+            a.add("POSAZ620");
+            a.add("POSAZ621");
+            a.add("POSAZ622");
+            a.add("POSAZ624");
+            a.add("POSAZ626");
+            a.add("POSAZ634");
+            a.add("POSAZ637");
+            a.add("POSAZ502");
+            a.add("POSAZ517");
+            a.add("POSAZ530");
+            a.add("POSAZ544");
+            a.add("POSAZ592");
+            a.add("POSAZ597");
+            a.add("POSAZ604");
+            a.add("POSAZ614");
+            a.add("POSAZ616");
+            a.add("POSAZ627");
+            a.add("POSAZ629");
+            a.add("POSAZ131");
+            
+
             
         	break;
         case 10:
@@ -983,16 +1014,16 @@ public class GenerarPostman {
              a.add("POSAZ636");
              a.add("POSAZ637");*/
             break;
-        case 11:
-//	        a.add("POSMZ145");
+        case FASE_ERROR2:
+//	        a.add("POSAZ593");
 //	        a.add("POSAZ520");
 //            a.add("POSAZ557");
 
         break;
         case 12:
-	        a.add("POSAZ593");
-	        a.add("POSAZ626");
-            a.add("POSAZ637");
+//	        a.add("POSAZ593");
+//	        a.add("POSAZ626");
+//            a.add("POSAZ637");
 
         break;
         
@@ -1114,7 +1145,9 @@ public class GenerarPostman {
     }
 
     private String obtenerNombrePrograma(String jsonLlamada) {
-        return jsonLlamada.substring(2, 10);
+
+    	System.out.println(jsonLlamada.replaceAll(" ", "").substring(2, 10));
+        return jsonLlamada.replaceAll(" ", "").substring(2, 10);
     }
     
     private String obtenerCodigoOperacion(String jsonLlamada, String nombrePrograma) {
