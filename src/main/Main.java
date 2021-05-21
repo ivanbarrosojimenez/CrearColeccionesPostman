@@ -22,11 +22,12 @@ public class Main {
     	boolean generarTest = true;
         GenerarPostman generarPostman = new GenerarPostman();
         TreeSet<String> listadoLLamadasJson = 
-                generarPostman.obtenerLlamadasJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);
+                generarPostman.obtenerLlamadasJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);        
         
-        System.out.println(listadoLLamadasJson.size());
         //TreeSet<String> listadoLLamadasJson = 
                       //generarPostman.obtenerTiemposJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);
+        
+        System.out.println(listadoLLamadasJson.size());
         
         //generarPostman.obtenerSalidaTiempos(listadoLLamadasJson);
 
