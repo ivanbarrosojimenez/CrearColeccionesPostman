@@ -407,8 +407,10 @@ public class GenerarPostman {
     			return !codigoOperacion.equals("L");
     		} else if (nombrePrograma.contains("POSAZ102")) {
     			return !(codigoOperacion.equals("L") && codigoOperacion.equals("D"));
+    		} else if (nombrePrograma.contains("POSLZ169")) {
+    			return !codigoOperacion.equals("L");
     		}
-    		
+
     		return true;
     		
     	case 2:
@@ -577,8 +579,10 @@ public class GenerarPostman {
 				return codigoOperacion.equals("L");
 			} else if (nombrePrograma.contains("POSAZ102")) {
 				return codigoOperacion.equals("L") || codigoOperacion.equals("D");
+			} else if (nombrePrograma.contains("POSLZ169")) {
+				return codigoOperacion.equals("L");
 			}
-			
+
 			return true;
 			
 		case 9:
@@ -652,6 +656,7 @@ public class GenerarPostman {
             a.add("POSAZ502");
             a.add("POSAZ557");
             a.add("POSAZ102");
+            a.add("POSLZ169");
             
             break;
             
