@@ -40,6 +40,8 @@ public class GenerarPostman {
     public static final int FASE24 = 24;
     public static final int FASE25 = 25;
     public static final int FASE26 = 26;
+    
+    public static final int PERFORMANCE = 50;
     StringBuffer sfTransaccionesPorColeccion = new StringBuffer();
     StringBuffer sfTransaccionesPorTiempo = new StringBuffer();
     public GenerarPostman() {
@@ -458,9 +460,7 @@ public class GenerarPostman {
         		return codigoOperacion.equals("A");
         	} else if (nombrePrograma.equals("POSMZ135")) {
         		return codigoOperacion.equals("A");
-        	} else if (nombrePrograma.contains("POSMZ138")) {
-        		return codigoOperacion.equals("M");
-        	}
+        	} 
     		
     		return true;
     		
@@ -531,6 +531,9 @@ public class GenerarPostman {
 			return true;
 		
 		case 8:
+			if (nombrePrograma.contains("POSMZ138")) {
+        		return codigoOperacion.equals("M");
+        	}
 			return true;
 			
 		case 9:
@@ -562,6 +565,9 @@ public class GenerarPostman {
 			
 		case 26:
 			return true;
+			
+		case PERFORMANCE:
+    		return true;
 			
 		default:
 			break;
@@ -643,7 +649,6 @@ public class GenerarPostman {
             a.add("POSAZ561");
             a.add("POSAZ631");
             a.add("POSMZ135");
-            a.add("POSMZ138");
             
             break;
         case 5:
@@ -747,7 +752,8 @@ public class GenerarPostman {
             a.add("POSMZ141");
         	a.add("POSMZ143");
             a.add("POSMZ144");
-            
+            a.add("POSMZ138");
+
         	break;  
         //Operaciones de solo lectura	
         case 9:
@@ -1137,7 +1143,32 @@ public class GenerarPostman {
         	
         	break;
         	
-        	
+        case PERFORMANCE:
+        	a.add("POSAZ500");
+        	a.add("POSAZ517");
+        	a.add("POSAZ524");
+        	a.add("POSAZ527");
+        	a.add("POSAZ528");
+        	a.add("POSAZ530");
+        	a.add("POSAZ544");
+        	a.add("POSAZ549");
+        	a.add("POSAZ550");
+        	a.add("POSAZ552");
+        	a.add("POSAZ587");
+        	a.add("POSAZ591");
+        	a.add("POSAZ593");
+        	a.add("POSAZ603");
+        	a.add("POSAZ605");
+        	a.add("POSAZ608");
+        	a.add("POSAZ618");
+        	a.add("POSAZ621");
+        	a.add("POSLZ165");
+        	a.add("POSLZ166");
+        	a.add("POSLZ167");
+        	a.add("POSLZ169");
+        	a.add("POSMZ139");
+        	a.add("POSMZ150");
+        	break;
         default:
             break;
         }

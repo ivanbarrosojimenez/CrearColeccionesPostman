@@ -10,7 +10,7 @@ import json.GenerarPostman;
 
 public class Main {
 
-    static String NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21 = "correos/correoTodos06mayo.txt";
+    static String NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21 = "correos/correoTodos26mayo.txt";
     static String NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN = "plantilla/plantilla.json";
 
     public static void main(String[] args) throws IOException {
@@ -19,7 +19,7 @@ public class Main {
     	//Borrar contenido y directorio Colecciones
     	//BorrarDirectorio.eliminarDirectorioYFicheros(new File("Colecciones"));	
     	
-    	boolean generarTest = true;
+    	boolean generarTest = false;
         GenerarPostman generarPostman = new GenerarPostman();
         TreeSet<String> listadoLLamadasJson = 
                 generarPostman.obtenerLlamadasJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);
@@ -30,7 +30,7 @@ public class Main {
         
         //generarPostman.obtenerSalidaTiempos(listadoLLamadasJson);
 
-        generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
+        /*generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 GenerarPostman.FASE1, generarTest);
         generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 GenerarPostman.FASE2, generarTest);
@@ -47,7 +47,10 @@ public class Main {
         generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 GenerarPostman.FASE8, generarTest);
         generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
-                GenerarPostman.FASE9, generarTest);
+                GenerarPostman.FASE9, generarTest);*/
+        generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
+                GenerarPostman.PERFORMANCE, generarTest);
+        
         /*generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 GenerarPostman.FASE21, generarTest);
         generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
