@@ -21,14 +21,15 @@ public class Main {
     	
     	boolean generarTest = false;
         GenerarPostman generarPostman = new GenerarPostman();
+        //TreeSet<String> listadoLLamadasJson = 
+                //generarPostman.obtenerLlamadasJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);        
+        
         TreeSet<String> listadoLLamadasJson = 
-                generarPostman.obtenerLlamadasJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);
+                      generarPostman.obtenerTiemposJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);
         
         System.out.println(listadoLLamadasJson.size());
-        //TreeSet<String> listadoLLamadasJson = 
-                      //generarPostman.obtenerTiemposJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);
         
-        //generarPostman.obtenerSalidaTiempos(listadoLLamadasJson);
+        generarPostman.obtenerSalidaTiempos(listadoLLamadasJson);
 
         /*generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 GenerarPostman.FASE1, generarTest);
@@ -48,9 +49,11 @@ public class Main {
                 GenerarPostman.FASE8, generarTest);
         generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 GenerarPostman.FASE9, generarTest);*/
+
         generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 GenerarPostman.PERFORMANCE, generarTest);
         
+
         /*generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 GenerarPostman.FASE21, generarTest);
         generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,

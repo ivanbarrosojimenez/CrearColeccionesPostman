@@ -393,6 +393,26 @@ public class GenerarPostman {
     	
     	switch (fase) {
     	case 1:
+    		if (nombrePrograma.contains("POSAZ599")) {
+    			return !codigoOperacion.equals("L");
+    		} else if (nombrePrograma.contains("POSAZ609")) {
+    			return !codigoOperacion.equals("L");
+    		} else if (nombrePrograma.contains("POSAZ610")) {
+    			return !codigoOperacion.equals("D");
+    		} else if (nombrePrograma.contains("POSAZ526")) {
+    			return !codigoOperacion.equals("C");
+    		} else if (nombrePrograma.contains("POSAZ527")) {
+    			return !codigoOperacion.equals("D");
+    		} else if (nombrePrograma.contains("POSAZ502")) {
+    			return !codigoOperacion.equals("C");
+    		} else if (nombrePrograma.contains("POSAZ557")) {
+    			return !codigoOperacion.equals("L");
+    		} else if (nombrePrograma.contains("POSAZ102")) {
+    			return !(codigoOperacion.equals("L") && codigoOperacion.equals("D"));
+    		} else if (nombrePrograma.contains("POSLZ169")) {
+    			return !codigoOperacion.equals("L");
+    		}
+
     		return true;
     		
     	case 2:
@@ -406,7 +426,9 @@ public class GenerarPostman {
         		return codigoOperacion.equals("A");
         	} else if (nombrePrograma.contains("POSAZ536")) {
         		return codigoOperacion.equals("A");
-        	}
+        	} else if (nombrePrograma.contains("POSAZ601")) {
+    			return !codigoOperacion.equals("D");
+    		}
     		
     		return true;
     		
@@ -431,6 +453,10 @@ public class GenerarPostman {
         		return codigoOperacion.equals("A1");
         	} else if (nombrePrograma.contains("POSMZ138")) {
         		return codigoOperacion.equals("A");
+        	} else if (nombrePrograma.contains("POSLZ170")) {
+        		return !codigoOperacion.equals("C");
+        	} else if (nombrePrograma.contains("POSMZ148")) {
+        		return !codigoOperacion.equals("L");
         	}
     		
     		return true;
@@ -494,6 +520,8 @@ public class GenerarPostman {
         		return codigoOperacion.equals("B");
         	} else if (nombrePrograma.contains("POSMZ138")) {
         		return codigoOperacion.equals("C");
+        	} else if (nombrePrograma.contains("POSAZ598")) {
+        		return !codigoOperacion.equals("D");
         	}
 			
 			return true;
@@ -513,6 +541,8 @@ public class GenerarPostman {
         		return codigoOperacion.equals("D");
         	} else if (nombrePrograma.contains("POSMZ138")) {
         		return codigoOperacion.equals("B");
+        	} else if (nombrePrograma.contains("POSAZ611")) {
+        		return !codigoOperacion.equals("L");
         	}
 			
 			return true;
@@ -531,12 +561,45 @@ public class GenerarPostman {
 			return true;
 		
 		case 8:
+
 			if (nombrePrograma.contains("POSMZ138")) {
         		return codigoOperacion.equals("M");
         	}
+			if (nombrePrograma.contains("POSAZ599")) {
+				return codigoOperacion.equals("L");
+			} else if (nombrePrograma.contains("POSAZ609")) {
+				return codigoOperacion.equals("L");
+			} else if (nombrePrograma.contains("POSAZ610")) {
+				return codigoOperacion.equals("D");
+			} else if (nombrePrograma.contains("POSAZ526")) {
+				return codigoOperacion.equals("C");
+			} else if (nombrePrograma.contains("POSAZ527")) {
+				return codigoOperacion.equals("D");
+			} else if (nombrePrograma.contains("POSAZ601")) {
+				return codigoOperacion.equals("D");
+			} else if (nombrePrograma.contains("POSLZ170")) {
+				return codigoOperacion.equals("C");
+			} else if (nombrePrograma.contains("POSMZ148")) {
+				return codigoOperacion.equals("L");
+			} else if (nombrePrograma.contains("POSAZ102")) {
+				return codigoOperacion.equals("L") || codigoOperacion.equals("D");
+			} else if (nombrePrograma.contains("POSLZ169")) {
+				return codigoOperacion.equals("L");
+			}
+
 			return true;
 			
 		case 9:
+			if (nombrePrograma.contains("POSAZ611")) {
+				return codigoOperacion.equals("L");
+			} else if (nombrePrograma.contains("POSAZ598")) {
+				return codigoOperacion.equals("D");
+			} else if (nombrePrograma.contains("POSAZ502")) {
+				return codigoOperacion.equals("C");
+			} else if (nombrePrograma.contains("POSAZ557")) {
+				return codigoOperacion.equals("L");
+			}
+			
 			return true;
 			
 		case 10:
@@ -597,6 +660,11 @@ public class GenerarPostman {
             a.add("POSAZ519");
             a.add("POSAZ526");
             a.add("POSAZ527");
+            a.add("POSAZ502");
+            a.add("POSAZ557");
+            a.add("POSAZ102");
+            a.add("POSLZ169");
+            
             break;
             
         case 2:
@@ -752,8 +820,16 @@ public class GenerarPostman {
             a.add("POSMZ141");
         	a.add("POSMZ143");
             a.add("POSMZ144");
-            a.add("POSMZ138");
 
+            a.add("POSAZ599");
+            a.add("POSAZ609");
+            a.add("POSAZ610");
+            a.add("POSAZ526");
+            a.add("POSAZ527");
+            a.add("POSAZ601");
+            a.add("POSLZ170");
+            a.add("POSMZ148");
+            
         	break;  
         //Operaciones de solo lectura	
         case 9:
@@ -796,8 +872,8 @@ public class GenerarPostman {
             a.add("POSAZ627");
             a.add("POSAZ629");
             a.add("POSAZ131");
-            
-
+            a.add("POSAZ611");
+            a.add("POSAZ598");
             
         	break;
         case 10:
@@ -1019,6 +1095,26 @@ public class GenerarPostman {
              a.add("POSAZ634");
              a.add("POSAZ636");
              a.add("POSAZ637");*/
+        	
+        	a.add("POSAZ593");
+        	a.add("POSAZ596");
+        	a.add("POSAZ601");
+        	a.add("POSAZ599");
+        	a.add("POSAZ598");
+        	a.add("POSAZ521");
+        	a.add("POSAZ501");
+        	a.add("POSAZ588");
+        	a.add("POSAZ600");
+        	a.add("POSAZ585");
+        	a.add("POSAZ604");
+        	a.add("POSAZ628");
+        	a.add("POSAZ594");
+        	a.add("POSAZ611");
+        	a.add("POSAZ627");
+        	a.add("POSAZ597");
+        	a.add("POSAZ592");
+        	a.add("POSAZ631");
+        	
             break;
         case FASE_ERROR2:
 //	        a.add("POSAZ593");
