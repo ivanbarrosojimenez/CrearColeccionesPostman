@@ -1271,8 +1271,7 @@ public class GenerarPostman {
         return a;
     }
 
-    private String obtenerNombrePrograma(String jsonLlamada) {
-
+    private String obtenerNombrePrograma(String jsonLlamada) {    	
     	System.out.println(jsonLlamada.replaceAll(" ", "").substring(2, 10));
         return jsonLlamada.replaceAll(" ", "").substring(2, 10);
     }
@@ -1287,6 +1286,7 @@ public class GenerarPostman {
     }
 
     private String obtenerNombreCopy(String jsonLlamada) {
+    	jsonLlamada = jsonLlamada.replace(" ", "");
         return "PW" + jsonLlamada.substring(4, 6) + "O" + jsonLlamada.substring(7, 10) + "-js";
     }
 
