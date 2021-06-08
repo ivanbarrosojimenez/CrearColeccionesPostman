@@ -19,16 +19,18 @@ public class Main {
     	//Borrar contenido y directorio Colecciones
     	//BorrarDirectorio.eliminarDirectorioYFicheros(new File("Colecciones"));	
     	
-    	boolean generarTest = false;
+    	boolean generarTest = true;
         GenerarPostman generarPostman = new GenerarPostman();
         TreeSet<String> listadoLLamadasJson = 
-                generarPostman.obtenerLlamadasJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);        
+                generarPostman.obtenerLlamadasJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);      
+
         
         //TreeSet<String> listadoLLamadasJson = 
                       //generarPostman.obtenerTiemposJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);
         
-        System.out.println(listadoLLamadasJson.size());
+//        System.out.println(listadoLLamadasJson.size());
         
+
         //generarPostman.obtenerSalidaTiempos(listadoLLamadasJson);
 
         generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
@@ -49,6 +51,7 @@ public class Main {
                 GenerarPostman.FASE8, generarTest);
         generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 GenerarPostman.FASE9, generarTest);
+
 
         //generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 //GenerarPostman.PERFORMANCE, generarTest);
