@@ -99,6 +99,62 @@ public class GenerarPostman {
         return llamadasJson;
     }
     
+    public TreeSet<String> obtenerLlamadasLog(String nombreFichero) {
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        TreeSet<String> llamadasJson = new TreeSet<>();
+        try {
+            boolean lineaEncontrada = false;
+            archivo = new File(nombreFichero);
+            fr = new FileReader(archivo);
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(nombreFichero), "Cp1252"));
+
+            // Lectura del fichero
+            String linea;
+            String textoLlamada = "";
+            
+            while ((linea = br.readLine()) != null) {
+                // System.out.println(linea);
+                if (linea.startsWith("Parametros Post:")
+                        || linea.startsWith("Codigo de respuesta:")) {
+                    lineaEncontrada = false;
+                }
+                if (lineaEncontrada && !linea.trim().equals("")) {
+                	linea = Normalizer.normalize(linea, Normalizer.Form.NFD);   
+                    linea = linea.replaceAll("[^\\p{ASCII}]", "");
+                    
+                    textoLlamada = textoLlamada.concat(linea.replaceAll("_ ", "_").replaceAll(" \"", "\"")
+                            .replaceAll(" _", "_").replaceAll("\" ", "\"")
+                            .replaceAll("(?<=\\w) +(?=\\w)", ""));                    
+                    
+                }
+                if (linea.startsWith("Parametros Post:")) {
+                    lineaEncontrada = true;
+                }
+                if (!textoLlamada.equals("") && linea.startsWith("Codigo de respuesta:")) {
+                    llamadasJson.add(textoLlamada.replace(" ", ""));
+                    textoLlamada = "";
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (null != fr) {
+                    fr.close();
+                }
+            }
+            catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }       
+
+        return llamadasJson;
+    }
+    
     public TreeSet<String> obtenerTiemposJson(String nombreFichero) {
         File archivo = null;
         FileReader fr = null;
@@ -536,12 +592,13 @@ public class GenerarPostman {
         		return codigoOperacion.equals("C");
         	} else if (nombrePrograma.contains("POSAZ598")) {
         		return !codigoOperacion.equals("D");
-        	}
-         	  else if (nombrePrograma.equals("POSAZ644")) {
-            		return codigoOperacion.equals("M") ;
-            	} else if (nombrePrograma.equals("POSAZ643")) {
-            		return codigoOperacion.equals("M") ;
-            	}
+        	} else if (nombrePrograma.equals("POSAZ644")) {
+         		return codigoOperacion.equals("M") ;
+         	} else if (nombrePrograma.equals("POSAZ643")) {
+         		return codigoOperacion.equals("M") ;
+            }  else if (nombrePrograma.equals("POSAZ543")) {
+        		return codigoOperacion.equals("D");
+            }
 			
 			return true;
 
@@ -585,13 +642,14 @@ public class GenerarPostman {
         	  else if (nombrePrograma.equals("POSAZ644")) {
         		return codigoOperacion.equals("L") || codigoOperacion.equals("I");
         	} else if (nombrePrograma.equals("POSAZ643")) {
-        		return codigoOperacion.equals("L") || codigoOperacion.equals("I");
+        		return codigoOperacion.equals("L") || codigoOperacion.equals("I");        	
+        	} else if (nombrePrograma.equals("POSAZ543")) {
+        		return codigoOperacion.equals("O");
         	}
 			
 			return true;
 		
 		case 8:
-
 			if (nombrePrograma.contains("POSMZ138")) {
         		return codigoOperacion.equals("M");
         	}
@@ -628,6 +686,8 @@ public class GenerarPostman {
 				return codigoOperacion.equals("C");
 			} else if (nombrePrograma.contains("POSAZ557")) {
 				return codigoOperacion.equals("L");
+			} else if (nombrePrograma.contains("POSAZ543")) {
+				return codigoOperacion.equals("C");
 			}
 			
 			return true;
@@ -818,6 +878,14 @@ public class GenerarPostman {
             a.add("POSMZ135");
             a.add("POSAZ594");
             
+            a.add("POSAZ630");            
+            a.add("POSAZ541");
+            a.add("POSAZ566");
+            a.add("POSAZ640");
+            a.add("POSAZ638");
+            a.add("POSAZ639");
+            a.add("POSAZ641");
+            a.add("POSAZ543");
             
             //Operaciones de solo lectura (L / I)
             a.add("POSAZ644");
@@ -924,6 +992,8 @@ public class GenerarPostman {
             a.add("POSAZ131");
             a.add("POSAZ611");
             a.add("POSAZ598");
+            a.add("POSAZ543");
+            a.add("POSAZ540");
             
         	break;
         case 10:
@@ -1332,7 +1402,19 @@ public class GenerarPostman {
     private String obtenerCodigoOperacion(String jsonLlamada, String nombrePrograma) {
     	int indexOpe = jsonLlamada.indexOf("cod_operacion_e");
     	if (nombrePrograma.contains("POSAZ631")) {
-    		return jsonLlamada.substring(indexOpe + 18, indexOpe + 20);	
+    		return jsonLlamada.substring(indexOpe + 18, indexOpe + 20);
+    	} else if (nombrePrograma.contains("POSAZ536") && indexOpe == -1) {
+    		indexOpe = jsonLlamada.indexOf("cod_operac_e");
+    		return jsonLlamada.substring(indexOpe + 15, indexOpe + 16);
+    	} else if (nombrePrograma.contains("POSAZ630") && indexOpe == -1) {
+    		// Solo tiene la operacion WA - Alta asociados
+    		return "WA";
+    	} else if (nombrePrograma.contains("POSAZ640") && indexOpe == -1) {
+    		indexOpe = jsonLlamada.indexOf("cod_operacion");
+    		return jsonLlamada.substring(indexOpe + 16, indexOpe + 18);
+    	} else if (nombrePrograma.contains("POSAZ543") && indexOpe == -1) {
+    		indexOpe = jsonLlamada.indexOf("tipo_oper_e");
+    		return jsonLlamada.substring(indexOpe + 14, indexOpe + 15);
     	} else {
     		return jsonLlamada.substring(indexOpe + 18, indexOpe + 19);	
     	}    	

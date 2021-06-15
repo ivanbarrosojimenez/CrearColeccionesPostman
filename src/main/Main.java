@@ -10,7 +10,8 @@ import json.GenerarPostman;
 
 public class Main {
 
-    static String NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21 = "correos/correoTodos3junio.txt";
+    static String NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21 = "correos/correoTodos13junio.txt";
+    //static String NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21 = "correos/resultados.log";
     static String NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN = "plantilla/plantilla.json";
 
     public static void main(String[] args) throws IOException {
@@ -22,13 +23,16 @@ public class Main {
     	boolean generarTest = true;
         GenerarPostman generarPostman = new GenerarPostman();
         TreeSet<String> listadoLLamadasJson = 
-                generarPostman.obtenerLlamadasJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);      
+                generarPostman.obtenerLlamadasJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);
+        
+        //TreeSet<String> listadoLLamadasJson = 
+                //generarPostman.obtenerLlamadasLog(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);
 
         
         //TreeSet<String> listadoLLamadasJson = 
                       //generarPostman.obtenerTiemposJson(NOMBRE_FICHERO_ENTRADA_CORREOS_FASE21);
         
-//        System.out.println(listadoLLamadasJson.size());
+        System.out.println(listadoLLamadasJson.size());
         
 
         //generarPostman.obtenerSalidaTiempos(listadoLLamadasJson);
