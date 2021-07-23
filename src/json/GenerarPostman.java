@@ -42,6 +42,7 @@ public class GenerarPostman {
     public static final int FASE26 = 26;
     
     public static final int PERFORMANCE = 50;
+    public static final int PORTAL = 60;
     StringBuffer sfTransaccionesPorColeccion = new StringBuffer();
     StringBuffer sfTransaccionesPorTiempo = new StringBuffer();
     public GenerarPostman() {
@@ -721,6 +722,9 @@ public class GenerarPostman {
 			
 		case PERFORMANCE:
     		return true;
+    		
+		case PORTAL:
+			return true;
 			
 		default:
 			break;
@@ -837,10 +841,10 @@ public class GenerarPostman {
             a.add("POSAZ625");            
             a.add("POSAZ632");
             a.add("POSAZ633");
-            a.add("POSAZ543");
+            //a.add("POSAZ543");
             a.add("POSAZ538");
             a.add("POSAZ514");
-            a.add("POSAZ132");
+            //a.add("POSAZ132");
             a.add("POSAZ598");
             a.add("POSAZ631");
             a.add("POSAZ503");
@@ -862,7 +866,7 @@ public class GenerarPostman {
             a.add("POSAZ611");
             a.add("POSAZ600");
             a.add("POSAZ582");
-            a.add("POSAZ132");
+            //a.add("POSAZ132");
             a.add("POSAZ503");
             a.add("POSAZ535");
             a.add("POSMZ138");
@@ -873,19 +877,19 @@ public class GenerarPostman {
             break;
         case 7:
             a.add("POSAZ538");
-            a.add("POSAZ132");
+            //a.add("POSAZ132");
             a.add("POSAZ503");
             a.add("POSMZ135");
             a.add("POSAZ594");
             
-            a.add("POSAZ630");            
-            a.add("POSAZ541");
-            a.add("POSAZ566");
+            //a.add("POSAZ630");            
+            //a.add("POSAZ541");
+            //a.add("POSAZ566");
             a.add("POSAZ640");
             a.add("POSAZ638");
             a.add("POSAZ639");
             a.add("POSAZ641");
-            a.add("POSAZ543");
+            //a.add("POSAZ543");
             
             //Operaciones de solo lectura (L / I)
             a.add("POSAZ644");
@@ -992,8 +996,8 @@ public class GenerarPostman {
             a.add("POSAZ131");
             a.add("POSAZ611");
             a.add("POSAZ598");
-            a.add("POSAZ543");
-            a.add("POSAZ540");
+            //a.add("POSAZ543");
+            //a.add("POSAZ540");
             
         	break;
         case 10:
@@ -1384,6 +1388,16 @@ public class GenerarPostman {
         	a.add("POSLZ169");
         	a.add("POSMZ139");
         	a.add("POSMZ150");
+        	break;
+        	
+        case PORTAL:
+        	a.add("POSAZ132");
+        	a.add("POSAZ540");
+        	a.add("POSAZ541");
+        	a.add("POSAZ543");
+        	a.add("POSAZ566");
+        	a.add("POSAZ630");
+        	
         	break;
         default:
             break;

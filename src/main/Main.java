@@ -60,6 +60,9 @@ public class Main {
         //generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 //GenerarPostman.PERFORMANCE, generarTest);
         
+        //generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
+                //GenerarPostman.PORTAL, generarTest);
+        
 
         /*generarPostman.obtenerSalida(NOMBRE_FICHERO_ENTRADA_PLANTILLA_POSTMAN, listadoLLamadasJson,
                 GenerarPostman.FASE21, generarTest);
